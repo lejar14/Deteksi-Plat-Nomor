@@ -1,0 +1,60 @@
+<!-- uploaded.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uploaded File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            padding: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .ocr-result {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+       <div class="image-container">
+        {% if result_file %}
+        <h2>Detection Result:</h2>
+        <img src="{{ result_file }}" alt="Detected Image">
+        {% endif %}
+    </div>
+    <div class="ocr-result">
+        {% if ocr_results %}
+        <h2>Plat Nomer Kendaraan:</h2>
+        <ul>
+            {% for ocr_result in ocr_results %}
+            <li>
+                <div class="ocr-container">
+                    <img src="{{ ocr_result['image_path'] }}" alt="OCR Image">
+                    <div class="ocr-text">
+                        <h3>OCR Text:</h3>
+                        <p>{{ ocr_result['ocr_text'] }}</p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <form action="/upload_again" method="post">
+        <button type="submit">Upload Another File</button>
+    </form>
+</body>
+</html>
