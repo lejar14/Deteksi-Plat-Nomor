@@ -4,15 +4,16 @@
   <title>Upload Gambar</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    align-content: flex-start;
+}
     .container {
       background-color: #fff;
       padding: 20px;
@@ -48,8 +49,9 @@
   </style>
 </head>
 <body>
+  <h1>Deteksi Plat Nomor Kendaraan</h1>
   <div class="container">
-    <h1>Upload Gambar atau Video</h1>
+    <h2>Upload Gambar</h2>
     <form method="post" action="/upload" enctype="multipart/form-data">
       <input type="file" name="file">
       <input type="submit" value="Upload">

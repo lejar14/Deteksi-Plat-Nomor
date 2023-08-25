@@ -78,15 +78,29 @@ def upload():
             result_file_path = 'static/deteksi/' + filename
 
             # Perform OCR using PaddleOCR
-            ocr = PaddleOCR()
+            ocr = PaddleOCR(
+                det=False,
+                rec_image_shape="3,400,400",
+                use_dilation=True,
+                use_tensorrt=True,
+                lang='en',
+            )
             ocr_folder_path = 'static/deteksi/crops/License_Plate'
-            ocr_filename = os.path.splitext(filename)[0] + '.jpg'  # Change extension to .jpg
+            if not os.path.exists(ocr_folder_path):
+                ocr_folder_path = 'static/deteksi/'
+
+            ocr_source_extension = os.path.splitext(filename)[1]
+            if ocr_folder_path == 'static/deteksi/crops/License_Plate':
+                ocr_filename = os.path.splitext(filename)[0] + '.jpg'  # Change extension to .jpg
+            else:
+                ocr_filename = os.path.splitext(filename)[0] + ocr_source_extension
             ocr_file_path = os.path.join(ocr_folder_path, ocr_filename)
             image = Image.open(ocr_file_path)
 
             # Resize the image (replace with desired dimensions)
-            target_size = (800, 600)
+            target_size = (400, 400)
             image_resized = image.resize(target_size)
+
 
             image_np = np.array(image_resized)  # Convert resized image to numpy array
             ocr_result = ocr.ocr(image_np)  # Pass the numpy array to the OCR function
@@ -104,9 +118,8 @@ def upload_again():
 
 
 def allowed_file(filename):
-    ALLOWED_EXTENSIONS = {'bmp', 'dng', 'jpeg', 'jpg', 'mpo', 'png', 'tif', 'tiff', 'webp', 'pfm',
-                          'asf', 'avi', 'gif', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'ts',
-                          'wmv', 'webm'}
+    ALLOWED_EXTENSIONS = {'bmp', 'dng', 'jpeg', 'jpg', 'mpo', 'png', 'tif', 'tiff', 'webp', 'pfm'}
+
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
